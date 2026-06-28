@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plenxo - Welcome</title>
+    <style>
+        /* 1. መሠረታዊ የንድፍ አወቃቀር (Reset & Base Styles) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19; /* ጥቁር ሰማያዊ የሳይበር ጀርባ */
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        /* ፕሪሚየም የሞባይል ካርድ (Mobile UI Card) */
+        .mobile-card {
+            width: 100%;
+            max-width: 380px;
+            background: #121826;
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 24px;
+            padding: 25px 20px;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.05), inset 0 0 15px rgba(0, 240, 255, 0.02);
+            position: relative;
+        }
+
+        /* 2. የቋንቋ መቀየሪያ ቁልፍ (Language Switcher) */
+        .lang-container {
+            position: absolute;
+            top: 25px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: #00f0ff;
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            padding: 6px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: rgba(0, 240, 255, 0.1);
+            border-color: #00f0ff;
+        }
+
+        /* 3. የርዕስ ክፍሎች (Header Typography) */
+        .header-section {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: #00f0ff;
+            text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .main-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #00f0ff;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+        }
+
+        .sub-title {
+            font-size: 14px;
+            color: #717d96;
+            margin-top: 6px;
+        }
+
+        /* 4. የፎርም ሳጥኖች አቀማመጥ (Form Fields) */
+        .form-box {
+            display: none; /* በጃቫስክሪፕት ነው የሚቀያየሩት */
+        }
+
+        .form-box.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #a0aec0;
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            background: #1a2236;
+            border: 1px solid #232e48;
+            padding: 14px 16px;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #00f0ff;
+            background: #1d273f;
+        }
+
+        /* የኢትዮጵያ ኮድ መያዣ ስልክ ቁጥር ሳጥን ልዩ ዲዛይን */
+        .phone-wrapper {
+            display: flex;
+            align-items: center;
+            background: #1a2236;
+            border: 1px solid #232e48;
+            border-radius: 12px;
+            padding: 0 16px;
+            transition: all 0.3s ease;
+        }
+
+        .phone-wrapper:focus-within {
+            border-color: #00f0ff;
+            background: #1d273f;
+        }
+
+        .flag-prefix {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 500;
+            padding-right: 12px;
+            border-right: 1px solid #232e48;
+            user-select: none;
+        }
+
+        .flag-icon {
+            width: 20px;
+            height: 14px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        .phone-wrapper input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 14px 0 14px 12px;
+            color: #ffffff;
+            font-size: 15px;
+            outline: none;
+        }
+
+        /* 5. የኒዮን አረንጓዴ ቁልፍ (Neon Gradient Button) */
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(90deg, #00f0ff, #00ff66);
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            color: #0b0f19;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 255, 102, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(0, 255, 102, 0.2);
+        }
+
+        /* 6. የታችኛው ሕግጋት እና መቀያየሪያ ጽሑፎች (Footer Texts) */
+        .policy-text {
+            text-align: center;
+            font-size: 12px;
+            color: #717d96;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        .policy-text a {
+            color: #00ff66;
+            text-decoration: none;
+        }
+
+        .switch-text {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+            color: #a0aec0;
+        }
+
+        .switch-text span {
+            color: #00f0ff;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-card">
+        <div class="lang-container">
+            <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">አማርኛ</button>
+        </div>
+
+        <div class="header-section">
+            <div class="logo">PLENXO</div>
+            <h1 class="main-title" id="pageTitle">Create Account</h1>
+            <p class="sub-title" id="pageSubtitle">Join our community and start earning</p>
+        </div>
+
+        <div class="form-box active" id="registerForm">
+            <div class="input-group">
+                <label id="lblRegName">User Name</label>
+                <div class="input-wrapper">
+                    <input type="text" id="regName" placeholder="Enter your name" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label id="lblRegPhone">Phone Number</label>
+                <div class="phone-wrapper">
+                    <div class="flag-prefix">
+                        <svg class="flag-icon" viewBox="0 0 6 3">
+                            <rect width="6" height="1" fill="#1f9e53"/>
+                            <rect width="6" height="1" y="1" fill="#f9d616"/>
+                            <rect width="6" height="1" y="2" fill="#e42313"/>
+                        </svg>
+                        <span>+251</span>
+                    </div>
+                    <input type="tel" id="regPhone" placeholder="912345678" required>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label id="lblRegPass">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="regPass" placeholder="Min 6 characters" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label id="lblRegConfirm">Confirm Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="regConfirm" placeholder="Re-enter your password" required>
+                </div>
+            </div>
+
+            <button class="btn-submit" id="btnRegister" onclick="handleRegister()">Register Now</button>
+            
+            <div class="switch-text">
+                <span id="textGoToLogin" onclick="showForm('login')">Already have an account? Login</span>
+            </div>
+
+            <div class="policy-text" id="policyText">
+                By continuing, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+
+        <div class="form-box" id="loginForm">
+            <div class="input-group">
+                <label id="lblLogPhone">Phone Number</label>
+                <div class="phone-wrapper">
+                    <div class="flag-prefix">
+                        <svg class="flag-icon" viewBox="0 0 6 3">
+                            <rect width="6" height="1" fill="#1f9e53"/>
+                            <rect width="6" height="1" y="1" fill="#f9d616"/>
+                            <rect width="6" height="1" y="2" fill="#e42313"/>
+                        </svg>
+                        <span>+251</span>
+                    </div>
+                    <input type="tel" id="loginPhone" placeholder="912345678" required>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label id="lblLogPass">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="loginPass" placeholder="Enter your password" required>
+                </div>
+            </div>
+
+            <button class="btn-submit" id="btnLogin" onclick="handleLogin()">Login Now</button>
+            
+            <div class="switch-text">
+                <span id="textGoToRegister" onclick="showForm('register')">Don't have an account? Register</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // የትርጉም መዝገበ-ቃላት
+        const translations = {
+            en: {
+                langBtn: "አማርኛ",
+                regTitle: "Create Account",
+                regSubtitle: "Join our community and start earning",
+                loginTitle: "Welcome Back",
+                loginSubtitle: "Sign in to continue your investments",
+                lblName: "User Name",
+                lblPhone: "Phone Number",
+                lblPass: "Password",
+                lblConfirm: "Confirm Password",
+                namePlh: "Enter your name",
+                passPlh: "Min 6 characters",
+                confPlh: "Re-enter your password",
+                logPassPlh: "Enter your password",
+                btnRegister: "Register Now",
+                btnLogin: "Login Now",
+                goToLogin: "Already have an account? Login",
+                goToRegister: "Don't have an account? Register",
+                policy: 'By continuing, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>',
+                alertFill: "Please fill all fields correctly!",
+                alertMatch: "Passwords do not match!",
+                alertSuccess: "Registration Successful! Referral Code created.",
+                alertLoginSuccess: "Welcome back!",
+                alertWrong: "Incorrect phone number or password!"
+            },
+            am: {
+                langBtn: "English",
+                regTitle: "አካውንት ይፍጠሩ",
+                regSubtitle: "ማህበረሰባችንን ይቀላቀሉ እና ገቢ ማግኘት ይጀምሩ",
+                loginTitle: "እንኳን ደህና መጡ",
+                loginSubtitle: "ኢንቨስትመንትዎን ለመቀጠል ይግቡ",
+                lblName: "የተጠቃሚ ስም",
+                lblPhone: "ስልክ ቁጥር",
+                lblPass: "የይለፍ ቃል (Password)",
+                lblConfirm: "የይለፍ ቃል ማረጋገጫ",
+                namePlh: "ስምዎን ያስገቡ",
+                passPlh: "ቢያንስ 6 ቁምፊዎች",
+                confPlh: "የይለፍ ቃልዎን በድጋሚ ያስገቡ",
+                logPassPlh: "የይለፍ ቃልዎን ያስገቡ",
+                btnRegister: "አሁኑኑ ይመዝገቡ",
+                btnLogin: "አሁኑኑ ይግቡ",
+                goToLogin: "አካውንት አለዎት? እዚህ ይግቡ",
+                goToRegister: "አካውንት የለዎትም? እዚህ ይመዝገቡ",
+                policy: 'በመቀጠልዎ፣ በውሎቻችን እና <a href="#">በግላዊነት ፖሊሲያችን</a> ይስማማሉ',
+                alertFill: "እባክዎ ሁሉንም ሳጥኖች በትክክል ይሙሉ!",
+                alertMatch: "የይለፍ ቃላቱ አንድ አይነት አይደሉም!",
+                alertSuccess: "ምዝገባው ተሳክቷል! መጋበዣ ኮድ ተፈጥሯል።",
+                alertLoginSuccess: "እንኳን ደህና መጡ!",
+                alertWrong: "የተሳሳተ ስልክ ቁጥር ወይም የይለፍ ቃል!"
+            }
+        };
+
+        let currentLang = 'en';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'am' : 'en';
+            updateUI();
+        }
+
+        function updateUI() {
+            const t = translations[currentLang];
+            document.getElementById('langBtn').innerText = t.langBtn;
+            
+            // ፎርሙ የትኛው ላይ እንዳለ አይቶ ርዕሱን ይቀይራል
+            const isRegisterActive = document.getElementById('registerForm').classList.contains('active');
+            if (isRegisterActive) {
+                document.getElementById('pageTitle').innerText = t.regTitle;
+                document.getElementById('pageSubtitle').innerText = t.regSubtitle;
+            } else {
+                document.getElementById('pageTitle').innerText = t.loginTitle;
+                document.getElementById('pageSubtitle').innerText = t.loginSubtitle;
+            }
+
+            // Labels እና Placeholders ማሻሻያ
+            document.getElementById('lblRegName').innerText = t.lblName;
+            document.getElementById('regName').placeholder = t.namePlh;
+            document.getElementById('lblRegPhone').innerText = t.lblPhone;
+            document.getElementById('lblRegPass').innerText = t.lblPass;
+            document.getElementById('regPass').placeholder = t.passPlh;
+            document.getElementById('lblRegConfirm').innerText = t.lblConfirm;
+            document.getElementById('regConfirm').placeholder = t.confPlh;
+            document.getElementById('btnRegister').innerText = t.btnRegister;
+            document.getElementById('textGoToLogin').innerText = t.goToLogin;
+            document.getElementById('policyText').innerHTML = t.policy;
+
+            document.getElementById('lblLogPhone').innerText = t.lblPhone;
+            document.getElementById('lblLogPass').innerText = t.lblPass;
+            document.getElementById('loginPass').placeholder = t.logPassPlh;
+            document.getElementById('btnLogin').innerText = t.btnLogin;
+            document.getElementById('textGoToRegister').innerText = t.goToRegister;
+        }
+
+        // ፎርም መቀያየሪያ (Register <-> Login)
+        function showForm(formType) {
+            const regForm = document.getElementById('registerForm');
+            const loginForm = document.getElementById('loginForm');
+
+            if (formType === 'register') {
+                regForm.classList.add('active');
+                loginForm.classList.remove('active');
+            } else {
+                loginForm.classList.add('active');
+                regForm.classList.remove('active');
+            }
+            updateUI(); // ርዕሶቹን አብሮ ለማደስ
+        }
+
+        /* ስማርት ሪዳይሬክት ህግ (Smart Redirect Checklist on Load) */
+        window.onload = function() {
+            const hasAccount = localStorage.getItem('plenxo_user_phone');
+            
+            if (hasAccount) {
+                // ተጠቃሚው ቀድሞ አካውንት ከፈጠረ በቀጥታ መግቢያ (Login) ያሳያል
+                showForm('login');
+            } else {
+                // አካውንት ከሌለው መጀመሪያ ምዝገባ (Register) ያሳያል
+                showForm('register');
+            }
+        };
+
+        // የምዝገባ አሰራር (Sign Up Handler)
+        function handleRegister() {
+            const name = document.getElementById('regName').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+            const confirmPass = document.getElementById('regConfirm').value.trim();
+            const t = translations[currentLang];
+
+            if (!name || !phone || !pass || !confirmPass) {
+                alert(t.alertFill);
+                return;
+            }
+
+            if (pass !== confirmPass) {
+                alert(t.alertMatch);
+                return;
+            }
+
+            // የግብዣ ኮድ (Invitation Code) በራሱ ማመንጨት (e.g., PLX4392)
+            const randomDigits = Math.floor(1000 + Math.random() * 9000);
+            const referralCode = "PLX" + randomDigits;
+
+            // መረጃዎችን በ localStorage ውስጥ ማስቀመጥ
+            localStorage.setItem('plenxo_user_name', name);
+            localStorage.setItem('plenxo_user_phone', phone);
+            localStorage.setItem('plenxo_user_pass', pass);
+            localStorage.setItem('plenxo_user_referral', referralCode);
+            localStorage.setItem('plenxo_balance', '0.00'); // መጀመሪያ ባላንስ 0 ነው
+
+            alert(t.alertSuccess + " " + referralCode);
+            
+            // ምዝገባ እንደጨረሰ በቀጥታ ወደ Login ፎርም ያሻግረዋል
+            showForm('login');
+        }
+
+        // የመግቢያ አሰራር (Sign In Handler)
+        function handleLogin() {
+            const phone = document.getElementById('loginPhone').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+            const t = translations[currentLang];
+
+            const savedPhone = localStorage.getItem('plenxo_user_phone');
+            const savedPass = localStorage.getItem('plenxo_user_pass');
+
+            if (phone === savedPhone && pass === savedPass) {
+                alert(t.alertLoginSuccess);
+                // በደረጃ ሁለት ላይ ወደ ዋናው የውስጥ ዳሽቦርድ ገጽ እዚህ ጋር እናሻግረዋለን!
+            } else {
+                alert(t.alertWrong);
+            }
+        }
+    </script>
+</body>
+</html>
