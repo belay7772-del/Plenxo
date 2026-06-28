@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plenxo - Premium Platform</title>
+    <style>
+        /* ==========================================================================
+           1. መሠረታዊ የንድፍ አወቃቀር (Base Styles & Neon Theme)
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #080c14;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* ፕሪሚየም የሞባይል ፍሬም */
+        .app-container {
+            width: 100%;
+            max-width: 410px;
+            background: #0f1422;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 75px; /* ለታችኛው ናቪጌሽን ቦታ */
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.05);
+            border-left: 1px solid rgba(0, 240, 255, 0.05);
+            border-right: 1px solid rgba(0, 240, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* የላይኛው አሞሌ (Top Header) */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #131a2e;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #00f0ff;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        .lang-toggle-btn {
+            background: rgba(0, 240, 255, 0.05);
+            color: #00f0ff;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           2. የታችኛው የናቪጌሽን አሞሌ (Bottom Navigation Bar)
+           ========================================================================== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 410px;
+            background: #131a2e;
+            border-top: 1px solid rgba(0, 240, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #717d96;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s;
+            flex: 1;
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            margin-bottom: 4px;
+            fill: currentColor;
+        }
+
+        .nav-item.active {
+            color: #00f0ff;
+            filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.4));
+        }
+
+        /* የገጾች መቆጣጠሪያ (View Blocks) */
+        .app-view {
+            display: none;
+            padding: 16px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .app-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           3. የቤት ገጽ ዲዛይን (HOME TAB STYLES)
+           ========================================================================== */
+        /* የሪፈራል ባነር ካርድ */
+        .banner-card {
+            background: linear-gradient(135deg, #1a233a 0%, #0d1324 100%);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0,240,255,0.15) 0%, transparent 70%);
+        }
+
+        .banner-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .banner-desc {
+            font-size: 12px;
+            color: #a0aec0;
+            margin-bottom: 14px;
+            max-width: 70%;
+        }
+
+        .btn-neon-action {
+            background: linear-gradient(90deg, #00f0ff, #00ff66);
+            color: #080c14;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+        }
+
+        /* የፈጣን አቋራጭ ቁልፎች (Grid Icons) */
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-item {
+            background: #131a2e;
+            border: 1px solid rgba(0, 240, 255, 0.08);
+            border-radius: 14px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .action-item:active { transform: scale(0.95); }
+
+        .action-icon-circle {
+            width: 42px;
+            height: 42px;
+            background: rgba(0, 240, 255, 0.06);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 8px;
+            color: #00f0ff;
+        }
+
+        .action-item span {
+            font-size: 11px;
+            font-weight: 600;
+            color: #cbd5e0;
+        }
+
+        /* የባላንስ ማሳያ ሳጥን (Main Wallet Balance) */
+        .wallet-card {
+            background: #131a2e;
+            border: 1px solid rgba(0, 255, 102, 0.15);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .wallet-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #a0aec0;
+        }
+
+        .vip-badge {
+            background: rgba(0, 255, 102, 0.1);
+            border: 1px solid #00ff66;
+            color: #00ff66;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .crypto-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .crypto-row:last-child { margin-bottom: 0; }
+
+        .crypto-label { font-size: 13px; color: #717d96; }
+        .crypto-val { font-size: 20px; font-weight: 700; color: #00ff66; text-shadow: 0 0 5px rgba(0, 255, 102, 0.2); }
+        .crypto-val.etb { color: #00f0ff; text-shadow: 0 0 5px rgba(0, 240, 255, 0.2); }
+
+        /* ባለ 3 ደረጃ የኮሚሽን ሳጥኖች (Commission Levels) */
+        .commission-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .level-box {
+            background: linear-gradient(180deg, #182038 0%, #111728 100%);
+            border-radius: 14px;
+            padding: 15px 10px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-box.lvl-1 { border: 1px solid rgba(0, 240, 255, 0.2); }
+        .level-box.lvl-2 { border: 1px solid rgba(168, 85, 247, 0.2); }
+        .level-box.lvl-3 { border: 1px solid rgba(236, 72, 153, 0.2); }
+
+        .level-tag {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .lvl-1 .level-tag { background: rgba(0, 240, 255, 0.1); color: #00f0ff; }
+        .lvl-2 .level-tag { background: rgba(168, 85, 247, 0.1); color: #a855f7; }
+        .lvl-3 .level-tag { background: rgba(236, 72, 153, 0.1); color: #ec4899; }
+
+        .level-desc { font-size: 11px; color: #a0aec0; margin-bottom: 8px; line-height: 1.3; }
+        .level-pct { font-size: 16px; font-weight: 700; color: #ffffff; }
+
+        /* ==========================================================================
+           4. ቪአይፒ ገጽ ዲዛይን (VIP TAB STYLES)
+           ========================================================================== */
+        .vip-header-box {
+            text-align: center;
+            padding: 15px 0;
+            margin-bottom: 15px;
+        }
+        
+        .vip-main-title { font-size: 18px; font-weight: 700; color: #00f0ff; margin-bottom: 4px; }
+        .vip-sub-title { font-size: 12px; color: #717d96; }
+
+        .vip-card-item {
+            background: #131a2e;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .vip-top-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .vip-img-placeholder {
+            width: 65px;
+            height: 65px;
+            background: #1a233a;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            color: #00f0ff;
+        }
+
+        .vip-info-meta { flex: 1; }
+        .vip-title-text { font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 4px; }
+        .vip-status-badge { font-size: 10px; padding: 2px 8px; border-radius: 6px; font-weight: 700; display: inline-block; }
+        .vip-status-badge.unlocked { background: rgba(0, 255, 102, 0.1); color: #00ff66; border: 1px solid #00ff66; }
+        .vip-status-badge.locked { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid #ef4444; }
+
+        .vip-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            background: #0f1422;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .stat-box-inner { font-size: 12px; }
+        .stat-box-inner p { color: #717d96; margin-bottom: 2px; }
+        .stat-box-inner span { font-weight: 700; color: #00f0ff; }
+
+        .vip-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 5px;
+        }
+        .vip-price-lbl { font-size: 13px; color: #cbd5e0; }
+        .vip-price-val { font-size: 15px; font-weight: 700; color: #00ff66; }
+
+        .btn-vip-upgrade {
+            width: 100%;
+            background: transparent;
+            border: 1px solid #00f0ff;
+            color: #00f0ff;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-vip-upgrade:hover { background: #00f0ff; color: #080c14; box-shadow: 0 0 10px #00f0ff; }
+
+        /* ==========================================================================
+           5. ታስክ ገጽ ዲዛይን (TASKS TAB STYLES)
+           ========================================================================== */
+        .task-status-banner {
+            background: #131a2e;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 240, 255, 0.08);
+        }
+
+        .task-main-card {
+            background: #131a2e;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .lock-icon-container {
+            width: 60px;
+            height: 60px;
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+            color: #f59e0b;
+        }
+
+        .task-empty-title { font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 6px; }
+        .task-empty-desc { font-size: 12px; color: #717d96; margin-bottom: 20px; }
+
+        /* ==========================================================================
+           6. ሪፈራል ገጽ ዲዛይን (TEAM TAB STYLES)
+           ========================================================================== */
+        .share-main-box {
+            background: #131a2e;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+        }
+
+        .gift-icon-container {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 240, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 12px;
+            color: #00f0ff;
+        }
+
+        .share-title { font-size: 20px; font-weight: 700; color: #ffffff; margin-bottom: 15px; }
+        .ref-label-text { font-size: 12px; color: #717d96; margin-bottom: 6px; }
+
+        .ref-code-display-box {
+            background: #0f1422;
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 24px;
+            font-weight: 800;
+            color: #00ff66;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(0, 255, 102, 0.2);
+        }
+
+        .link-input-wrapper {
+            background: #0f1422;
+            border: 1px solid #1a233a;
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .link-text-short { font-size: 12px; color: #cbd5e0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%; }
+        .copy-icon-btn { color: #00f0ff; cursor: pointer; background: transparent; border: none; }
+
+        .dual-btn-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-secondary-neon {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: #00f0ff;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary-neon {
+            background: #00f0ff;
+            border: none;
+            color: #080c14;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .network-trigger-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #1e294b, #131a2e);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            color: #cbd5e0;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* ==========================================================================
+           7. ፕሮፋይል ገጽ ዲዛይን (PROFILE TAB STYLES)
+           ========================================================================== */
+        .profile-user-card {
+            background: #131a2e;
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-left: 4px solid #00f0ff;
+        }
+        .prof-meta-left h3 { font-size: 16px; color: #ffffff; margin-bottom: 2px; }
+        .prof-meta-left p { font-size: 12px; color: #717d96; }
+
+        .big-balance-show {
+            background: linear-gradient(135deg, #131a2e 0%, #1a233a 100%);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .big-bal-title { font-size: 26px; font-weight: 800; color: #00ff66; margin-top: 4px; }
+
+        .profile-menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .menu-grid-btn {
+            background: #131a2e;
+            border: 1px solid rgba(0, 240, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cbd5e0;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .menu-grid-btn svg { width: 18px; height: 18px; color: #00f0ff; }
+        .menu-grid-btn.logout-style { border-color: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .menu-grid-btn.logout-style svg { color: #ef4444; }
+
+        /* ==========================================================================
+           8. የባንክ ማኑዋል ማረጋገጫ (Deposit Pop-up Modal)
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-box {
+            background: #131a2e;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 360px;
+            padding: 20px;
+        }
+        .modal-title { font-size: 16px; font-weight: 700; color: #00f0ff; margin-bottom: 12px; }
+        .bank-details-alert { background: #0f1422; padding: 12px; border-radius: 10px; font-size: 12px; line-height: 1.5; margin-bottom: 15px; border-left: 3px solid #00ff66; }
+        .modal-input { width: 100%; background: #0f1422; border: 1px solid #1a233a; padding: 12px; border-radius: 10px; color: #fff; margin-bottom: 15px; outline: none; font-size: 14px; }
+        .modal-input:focus { border-color: #00f0ff; }
+        .modal-actions { display: flex; gap: 10px; }
+        .modal-actions button { flex: 1; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .btn-cancel-m { background: #1a233a; border: none; color: #cbd5e0; }
+        .btn-confirm-m { background: #00ff66; border: none; color: #080c14; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div class="top-header">
+            <div class="brand-logo">PLENXO</div>
+            <button class="lang-toggle-btn" id="langBtn" onclick="toggleLanguage()">አማርኛ</button>
+        </div>
+
+        <div id="viewHome" class="app-view active">
+            <div class="banner-card">
+                <div class="banner-title" id="homeBannerTitle">Referral Program</div>
+                <div class="banner-desc" id="homeBannerDesc">Invite friends and earn lifetime commissions on their investments.</div>
+                <button class="btn-neon-action" id="homeBannerBtn" onclick="switchTab('team')">Refer Now</button>
+            </div>
+
+            <div class="quick-actions-grid">
+                <div class="action-item" onclick="openDepositModal()">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M11 4h2v10h-2zm0 12h2v2h-2z"/></svg>
+                    </div>
+                    <span id="actDeposit">Deposit</span>
+                </div>
+                <div class="action-item" onclick="alert('Withdraw functional after verification.')">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M11 14h2V4h-2zm0 4h2v2h-2z"/></svg>
+                    </div>
+                    <span id="actWithdraw">Withdraw</span>
+                </div>
+                <div class="action-item" onclick="alert('Plenxo Premium Platform v1.0')">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M11 7h2v2h-2zm0 4h2v6h-2z"/></svg>
+                    </div>
+                    <span id="actAbout">About</span>
+                </div>
+                <div class="action-item" onclick="window.open('#')">
+                    <div class="action-icon-circle">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 11c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>
+                    </div>
+                    <span id="actTelegram">Telegram</span>
+                </div>
+            </div>
+
+            <div class="wallet-card">
+                <div class="wallet-card-header">
+                    <span id="walletTitleText">Your Balance</span>
+                    <span class="vip-badge" id="userVipBadge">VIP 0</span>
+                </div>
+                <div class="crypto-row">
+                    <span class="crypto-label">USDT Balance</span>
+                    <span class="crypto-val">0 <span style="font-size:12px; color:#717d96;">USDT</span></span>
+                </div>
+                <div class="crypto-row">
+                    <span class="crypto-label">ETB Balance</span>
+                    <span class="crypto-val etb"><span id="mainEtbBalance">0.00</span> <span style="font-size:12px; color:#717d96;">ETB</span></span>
+                </div>
+            </div>
+
+            <div class="commission-container">
+                <div class="level-box lvl-1">
+                    <div class="level-tag">LEVEL 1</div>
+                    <div class="level-desc" id="lvl1Desc">Register Valid Commission</div>
+                    <div class="level-pct">8%</div>
+                </div>
+                <div class="level-box lvl-2">
+                    <div class="level-tag">LEVEL 2</div>
+                    <div class="level-desc" id="lvl2Desc">Register Valid Commission</div>
+                    <div class="level-pct">3%</div>
+                </div>
+                <div class="level-box lvl-3">
+                    <div class="level-tag">LEVEL 3</div>
+                    <div class="level-desc" id="lvl3Desc">Register Valid Commission</div>
+                    <div class="level-pct">1%</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="viewVip" class="app-view">
+            <div class="vip-header-box">
+                <div class="vip-main-title" id="vipHeadTitle">VIP Levels</div>
+                <div class="vip-sub-title" id="vipHeadSub">Unlock exclusive benefits and earn more</div>
+            </div>
+
+            <div class="vip-card-item">
+                <div class="vip-top-row">
+                    <div class="vip-img-placeholder">🎁</div>
+                    <div class="vip-info-meta">
+                        <div class="vip-title-text">VIP Level 0</div>
+                        <span class="vip-status-badge unlocked" id="vip0Badge">Unlocked</span>
+                    </div>
+                </div>
+                <div class="vip-stats-grid">
+                    <div class="stat-box-inner"><p id="lblV0Task">Per Task</p><span>0 ETB</span></div>
+                    <div class="stat-box-inner"><p id="lblV0Weekly">Weekly</p><span>0 ETB</span></div>
+                </div>
+                <div class="vip-price-row">
+                    <span class="vip-price-lbl" id="lblV0Price">Price</span>
+                    <span class="vip-price-val">0 ETB</span>
+                </div>
+            </div>
+
+            <div class="vip-card-item">
+                <div class="vip-top-row">
+                    <div class="vip-img-placeholder">🔒</div>
+                    <div class="vip-info-meta">
+                        <div class="vip-title-text">VIP Level 1</div>
+                        <span class="vip-status-badge locked" id="vip1Badge">Locked</span>
+                    </div>
+                </div>
+                <div class="vip-stats-grid">
+                    <div class="stat-box-inner"><p id="lblV1Task">Per Task</p><span>80 ETB</span></div>
+                    <div class="stat-box-inner"><p id="lblV1Weekly">Weekly</p><span>560 ETB</span></div>
+                </div>
+                <div class="vip-price-row">
+                    <span class="vip-price-lbl" id="lblV1Price">Price</span>
+                    <span class="vip-price-val">2,000 ETB</span>
+                </div>
+                <button class="btn-vip-upgrade" id="btnV1Upgrade" onclick="openDepositModal()">Upgrade</button>
+            </div>
+
+            <div class="vip-card-item">
+                <div class="vip-top-row">
+                    <div class="vip-img-placeholder">🔒</div>
+                    <div class="vip-info-meta">
+                        <div class="vip-title-text">VIP Level 2</div>
+                        <span class="vip-status-badge locked" id="vip2Badge">Locked</span>
+                    </div>
+                </div>
+                <div class="vip-stats-grid">
+                    <div class="stat-box-inner"><p id="lblV2Task">Per Task</p><span>200 ETB</span></div>
+                    <div class="stat-box-inner"><p id="lblV2Weekly">Weekly</p><span>1,400 ETB</span></div>
+                </div>
+                <div class="vip-price-row">
+                    <span class="vip-price-lbl" id="lblV2Price">Price</span>
+                    <span class="vip-price-val">5,000 ETB</span>
+                </div>
+                <button class="btn-vip-upgrade" id="btnV2Upgrade" onclick="openDepositModal()">Upgrade</button>
+            </div>
+        </div>
+
+        <div id="viewTasks" class="app-view">
+            <div class="vip-header-box">
+                <div class="vip-main-title" id="taskHeadTitle">Daily Task</div>
+                <div class="vip-sub-title" id="taskHeadSub">Complete the task to earn rewards</div>
+            </div>
+
+            <div class="task-status-banner">
+                <span id="taskBarLvl">VIP Level: VIP 0</span>
+                <span>Reward: <strong style="color:#00ff66;">0 ETB</strong></span>
+            </div>
+
+            <div class="task-main-card">
+                <div class="lock-icon-container">🔒</div>
+                <div class="task-empty-title" id="taskEmptyT">No Tasks Available</div>
+                <div class="task-empty-desc" id="taskEmptyD">Deposit and upgrade your VIP level to unlock tasks</div>
+                <button class="btn-primary-neon" style="width:100%;" id="taskBtnDep" onclick="openDepositModal()">Deposit Now</button>
+            </div>
+        </div>
+
+        <div id="viewTeam" class="app-view">
+            <div class="vip-header-box">
+                <div class="vip-main-title" id="teamHeadTitle">Referral Program</div>
+                <div class="vip-sub-title" id="teamHeadSub">Invite friends and earn together!</div>
+            </div>
+
+            <div class="share-main-box">
+                <div class="gift-icon-container">🎁</div>
+                <div class="share-title" id="shareEarnTitle">Share & Earn</div>
+                
+                <div class="ref-label-text" id="lblYourRef">Your Referral Code</div>
+                <div class="ref-code-display-box" id="teamRefCode">952060</div>
+
+                <div class="ref-label-text" id="lblShareLink">Share this link</div>
+                <div class="link-input-wrapper">
+                    <span class="link-text-short" id="teamRefLink">https://plenxo.com/register?ref=952060</span>
+                    <button class="copy-icon-btn" onclick="copyLink()">📋</button>
+                </div>
+
+                <div class="dual-btn-row">
+                    <button class="btn-secondary-neon" id="btnCopyCode" onclick="alert('Code Copied!')">Copy Code</button>
+                    <button class="btn-primary-neon" id="btnShare" onclick="alert('Link Copied to Share!')">Share</button>
+                </div>
+
+                <button class="network-trigger-btn" id="btnShowNet">Show Referral Network</button>
+            </div>
+        </div>
+
+        <div id="viewProfile" class="app-view">
+            <div class="profile-user-card">
+                <div class="prof-meta-left">
+                    <p id="lblProfWelcome">Welcome Back</p>
+                    <h3 id="profUserName">User</h3>
+                </div>
+                <span class="vip-badge" id="profVipBadge">VIP 0</span>
+            </div>
+
+            <div class="big-balance-show">
+                <span style="font-size:13px; color:#a0aec0;" id="lblProfWallet">Balance</span>
+                <div class="big-bal-title"><span id="profEtbBalance">0.00</span> <span style="font-size:16px; color:#717d96;">ETB</span></div>
+            </div>
+
+            <div class="profile-menu-grid">
+                <div class="menu-grid-btn" onclick="openDepositModal()">
+                    <span>💰 Deposit</span>
+                </div>
+                <div class="menu-grid-btn" onclick="alert('No deposit records found.')">
+                    <span>📋 Deposit Record</span>
+                </div>
+                <div class="menu-grid-btn" onclick="alert('Withdraw functional after verification.')">
+                    <span>💳 Withdraw</span>
+                </div>
+                <div class="menu-grid-btn" onclick="alert('No withdraw records found.')">
+                    <span>📋 Withdraw Record</span>
+                </div>
+                <div class="menu-grid-btn" onclick="alert('Feature coming soon.')">
+                    <span>🔑 Change Password</span>
+                </div>
+                <div class="menu-grid-btn logout-style" onclick="alert('Logging out...')">
+                    <span>🚪 Logout</span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <div class="nav-item active" id="navHome" onclick="switchTab('home')">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span id="tabHome">Home</span>
+            </div>
+            <div class="nav-item" id="navVip" onclick="switchTab('vip')">
+                <svg viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2zm0 4l7.5 13h-15L12 6z"/></svg>
+                <span id="tabVip">VIP</span>
+            </div>
+            <div class="nav-item" id="navTasks" onclick="switchTab('tasks')">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                <span id="tabTasks">Tasks</span>
+            </div>
+            <div class="nav-item" id="navTeam" onclick="switchTab('team')">
+                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 1.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                <span id="tabTeam">Team</span>
+            </div>
+            <div class="nav-item" id="navProfile" onclick="switchTab('profile')">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+                <span id="tabProfile">Profile</span>
+            </div>
+        </nav>
+
+    </div>
+
+    <div class="modal-overlay" id="depositModal">
+        <div class="modal-box">
+            <div class="modal-title" id="mdTitle">Manual Verification Deposit</div>
+            <div class="bank-details-alert" id="mdBankText">
+                Please transfer the required amount to:<br>
+                • <strong>Telebirr:</strong> 0912345678 (Plenxo Ltd)<br>
+                • <strong>CBE Bank:</strong> 1000123456789 (Plenxo Ltd)
+            </div>
+            <input type="text" class="modal-input" id="modalTxnId" placeholder="Enter Transaction ID (Txn ID)">
+            <div class="modal-actions">
+                <button class="btn-cancel-m" id="mdBtnCancel" onclick="closeDepositModal()">Cancel</button>
+                <button class="btn-confirm-m" id="mdBtnSubmit" onclick="submitDepositTxn()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                langBtn: "አማርኛ",
+                homeBTitle: "Referral Program", homeBDesc: "Invite friends and earn lifetime commissions on their investments.", homeBBtn: "Refer Now",
+                actDeposit: "Deposit", actWithdraw: "Withdraw", actAbout: "About", actTelegram: "Telegram",
+                walletTitle: "Your Balance", lvlDesc: "Register Valid Commission",
+                vipTitle: "VIP Levels", vipSub: "Unlock exclusive benefits and earn more",
+                lblTask: "Per Task", lblWeekly: "Weekly", lblPrice: "Price", btnUpgrade: "Upgrade",
+                taskTitle: "Daily Task", taskSub: "Complete the task to earn rewards", taskEmptyT: "No Tasks Available", taskEmptyD: "Deposit and upgrade your VIP level to unlock tasks", taskBtnDep: "Deposit Now",
+                teamTitle: "Referral Program", teamSub: "Invite friends and earn together!", shareEarn: "Share & Earn", lblYourRef: "Your Referral Code", lblShareLink: "Share this link", btnCopyCode: "Copy Code", btnShare: "Share", btnShowNet: "Show Referral Network",
+                profWelcome: "Welcome Back", profWallet: "Balance",
+                tabHome: "Home", tabVip: "VIP", tabTasks: "Tasks", tabTeam: "Team", tabProfile: "Profile",
+                mdTitle: "Manual Verification Deposit", mdCancel: "Cancel", mdSubmit: "Submit",
+                alertSuccess: "Transaction submitted! Admin will verify within 30 minutes.", alertFill: "Please enter the Transaction ID!"
+            },
+            am: {
+                langBtn: "English",
+                homeBTitle: "የሪፈራል ፕሮግራም", homeBDesc: "ጓደኞችዎን ይጋብዙ እና በኢንቨስትመንትዎቻቸው ላይ የህይወት ዘመን ኮሚሽን ያግኙ።", homeBBtn: "አሁኑኑ ይጋብዙ",
+                actDeposit: "ዴፖዚት", actWithdraw: "ዊዝድሮው", actAbout: "ስለ እኛ", actTelegram: "ቴሌግራም",
+                walletTitle: "የእርስዎ ቁጠባ", lvlDesc: "ትክክለኛ የምዝገባ ኮሚሽን",
+                vipTitle: "የVIP ደረጃዎች", vipSub: "ልዩ ጥቅማጥቅሞችን ይክፈቱ እና ብዙ ያግኙ",
+                lblTask: "በየተግባሩ", lblWeekly: "በየሳምንቱ", lblPrice: "ዋጋ", btnUpgrade: "አሻሽል",
+                taskTitle: "የዕለት ተግባር", taskSub: "ሽልማቶችን ለማግኘት ተግባሩን ያጠናቅቁ", taskEmptyT: "ምንም የሚገኙ ተግባራት የሉም", taskEmptyD: "ተግባራትን ለመክፈት ተቀማጭ ያድርጉ እና የቪአይፒ ደረጃዎን ያሳድጉ", taskBtnDep: "አሁኑኑ ዴፖዚት አድርግ",
+                teamTitle: "የሪፈራል ፕሮግራም", teamSub: "ጓደኞችን ይጋብዙ እና አብረው ያግኙ!", shareEarn: "ያጋሩ እና ያግኙ", lblYourRef: "የእርስዎ መጋበዣ ኮድ", lblShareLink: "ይህንን ሊንክ ያጋሩ", btnCopyCode: "ኮድ ቅዳ", btnShare: "አጋራ", btnShowNet: "የሪፈራል ኔትወርክ አሳይ",
+                profWelcome: "እንኳን ደህና መጡ", profWallet: "አጠቃላይ ቁጠባ",
+                tabHome: "ቤት", tabVip: "ቪአይፒ", tabTasks: "ተግባራት", tabTeam: "ቡድን", tabProfile: "ፕሮፋይል",
+                mdTitle: "በማኑዋል ማረጋገጫ ዴፖዚት", mdCancel: "ሰርዝ", mdSubmit: "ላክ",
+                alertSuccess: "የላኩት መለያ ቁጥር ደርሶናል! አስተዳዳሪው በ30 ደቂቃ ውስጥ ያረጋግጠዋል።", alertFill: "እባክዎ መጀመሪያ የግብይት መለያ ቁጥሩን ያስገቡ!"
+            }
+        };
+
+        let currentLang = 'en';
+
+        // ታቦችን መቀያየሪያ ተግባር (Single Page Navigation)
+        function switchTab(tabName) {
+            // ሁሉንም ገጾች ደብቅ
+            document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
+            // ሁሉንም የናቭ ቁልፎች አጥፋ
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            // የነካነውን ገጽ እና ቁልፍ አብራ
+            if(tabName === 'home') { document.getElementById('viewHome').classList.add('active'); document.getElementById('navHome').classList.add('active'); }
+            if(tabName === 'vip') { document.getElementById('viewVip').classList.add('active'); document.getElementById('navVip').classList.add('active'); }
+            if(tabName === 'tasks') { document.getElementById('viewTasks').classList.add('active'); document.getElementById('navTasks').classList.add('active'); }
+            if(tabName === 'team') { document.getElementById('viewTeam').classList.add('active'); document.getElementById('navTeam').classList.add('active'); }
+            if(tabName === 'profile') { document.getElementById('viewProfile').classList.add('active'); document.getElementById('navProfile').classList.add('active'); }
+        }
+
+        // ቋንቋ መቀያየሪያ
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'am' : 'en';
+            const t = translations[currentLang];
+
+            document.getElementById('langBtn').innerText = t.langBtn;
+            
+            // የቤት ገጽ ጽሑፎች
+            document.getElementById('homeBannerTitle').innerText = t.homeBTitle;
+            document.getElementById('homeBannerDesc').innerText = t.homeBDesc;
+            document.getElementById('homeBannerBtn').innerText = t.homeBBtn;
+            document.getElementById('actDeposit').innerText = t.actDeposit;
+            document.getElementById('actWithdraw').innerText = t.actWithdraw;
+            document.getElementById('actAbout').innerText = t.actAbout;
+            document.getElementById('actTelegram').innerText = t.actTelegram;
+            document.getElementById('walletTitleText').innerText = t.walletTitle;
+            document.getElementById('lvl1Desc').innerText = t.lvlDesc;
+            document.getElementById('lvl2Desc').innerText = t.lvlDesc;
+            document.getElementById('lvl3Desc').innerText = t.lvlDesc;
+
+            // ቪአይፒ ገጽ
+            document.getElementById('vipHeadTitle').innerText = t.vipTitle;
+            document.getElementById('vipHeadSub').innerText = t.vipSub;
+            document.getElementById('lblV0Task').innerText = t.lblTask; document.getElementById('lblV0Weekly').innerText = t.lblWeekly; document.getElementById('lblV0Price').innerText = t.lblPrice;
+            document.getElementById('lblV1Task').innerText = t.lblTask; document.getElementById('lblV1Weekly').innerText = t.lblWeekly; document.getElementById('lblV1Price').innerText = t.lblPrice;
+            document.getElementById('lblV2Task').innerText = t.lblTask; document.getElementById('lblV2Weekly').innerText = t.lblWeekly; document.getElementById('lblV2Price').innerText = t.lblPrice;
+            document.getElementById('btnV1Upgrade').innerText = t.btnUpgrade; document.getElementById('btnV2Upgrade').innerText = t.btnUpgrade;
+
+            // ታስክ ገጽ
+            document.getElementById('taskHeadTitle').innerText = t.taskTitle;
+            document.getElementById('taskHeadSub').innerText = t.taskSub;
+            document.getElementById('taskEmptyT').innerText = t.taskEmptyT;
+            document.getElementById('taskEmptyD').innerText = t.taskEmptyD;
+            document.getElementById('taskBtnDep').innerText = t.taskBtnDep;
+
+            // ሪፈራል ገጽ
+            document.getElementById('teamHeadTitle').innerText = t.teamTitle;
+            document.getElementById('teamHeadSub').innerText = t.teamSub;
+            document.getElementById('shareEarnTitle').innerText = t.shareEarn;
+            document.getElementById('lblYourRef').innerText = t.lblYourRef;
+            document.getElementById('lblShareLink').innerText = t.lblShareLink;
+            document.getElementById('btnCopyCode').innerText = t.btnCopyCode;
+            document.getElementById('btnShare').innerText = t.btnShare;
+            document.getElementById('btnShowNet').innerText = t.btnShowNet;
+
+            // ፕሮፋይል ገጽ
+            document.getElementById('lblProfWelcome').innerText = t.profWelcome;
+            document.getElementById('lblProfWallet').innerText = t.profWallet;
+
+            // ታችኛው ማውጫ (Tabs)
+            document.getElementById('tabHome').innerText = t.tabHome;
+            document.getElementById('tabVip').innerText = t.tabVip;
+            document.getElementById('tabTasks').innerText = t.tabTasks;
+            document.getElementById('tabTeam').innerText = t.tabTeam;
+            document.getElementById('tabProfile').innerText = t.tabProfile;
+
+            // ፖፕ-አፕ ሞዳል
+            document.getElementById('mdTitle').innerText = t.mdTitle;
+            document.getElementById('mdBtnCancel').innerText = t.mdCancel;
+            document.getElementById('mdBtnSubmit').innerText = t.mdSubmit;
+        }
+
+        // የባንክ ማረጋገጫ ፖፕ-አፕ መቆጣጠሪያዎች
+        function openDepositModal() { document.getElementById('depositModal').style.display = 'flex'; }
+        function closeDepositModal() { document.getElementById('depositModal').style.display = 'none'; document.getElementById('modalTxnId').value = ''; }
+        
+        function submitDepositTxn() {
+            const txn = document.getElementById('modalTxnId').value.trim();
+            const t = translations[currentLang];
+            if(!txn) { alert(t.alertFill); return; }
+            alert(t.alertSuccess);
+            closeDepositModal();
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(document.getElementById('teamRefLink').innerText);
+            alert('Link copied!');
+        }
+
+        // መረጃዎችን ከፊተኛው ገጽ (Localstorage) መጫኛ
+        window.onload = function() {
+            const savedName = localStorage.getItem('plenxo_user_name') || 'Rock User';
+            const savedRef = localStorage.getItem('plenxo_user_referral') || '952060';
+            const savedBal = localStorage.getItem('plenxo_balance') || '0.00';
+
+            document.getElementById('profUserName').innerText = savedName;
+            document.getElementById('teamRefCode').innerText = savedRef;
+            document.getElementById('teamRefLink').innerText = "https://plenxo.com/register?ref=" + savedRef;
+            
+            document.getElementById('mainEtbBalance').innerText = parseFloat(savedBal).toFixed(2);
+            document.getElementById('profEtbBalance').innerText = parseFloat(savedBal).toFixed(2);
+        }
+    </script>
+</body>
+</html>
